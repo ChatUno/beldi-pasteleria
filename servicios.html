@@ -1,0 +1,414 @@
+﻿<!DOCTYPE html>
+<html lang="es" data-idioma="ES">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Servicios de Beldi - Cada dulce cuenta una historia. La historia de nuestras abuelas, de nuestras ciudades, de nuestra cultura.">
+  <title>Beldi | Servicios</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@400;600&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --color-fondo: #fdf9f3;
+      --color-texto: #3d2c1a;
+      --color-nav: #fdf9f3;
+      --color-borde: #e0d0b8;
+      --color-primario: #c4883c;
+      --color-primario-alt: #a06828;
+      --color-hero: #f8efe0;
+      --color-hero-alt: #f0e4d0;
+      --color-titulo: #2d1a08;
+      --color-subtitulo: #8a6b45;
+      --color-badge: #fce8d0;
+      --color-placeholder: #e8d8c0;
+      --color-card: #ffffff;
+      --color-contadores-fondo: #f8efe0;
+      --color-footer-fondo: #2d1a08;
+      --color-texto-footer: #b89060;
+      --color-form-borde: #d8c8a8;
+      --color-form-fondo: #ffffff;
+      --font-titulos: 'Playfair Display', sans-serif;
+      --font-cuerpo: 'Lato', sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root --color-fondo: #1a1008; --color-texto: #e0d0b8; --color-nav: #1a1008; --color-borde: #3d2818; --color-hero: #1a1008; --color-hero-alt: #241810; --color-titulo: #f5e8d0; --color-subtitulo: #b09068; --color-badge: #3d2810; --color-placeholder: #3d2818; --color-card: #241810; --color-contadores-fondo: #1a1008; --color-testimonios-fondo: #1a1008; --color-testimonios-item: #241810; --color-footer-fondo: #0f0804; --color-texto-footer: #705030; --color-form-borde: #3d2818; --color-form-fondo: #1a1008;
+    }
+    [data-tema="dark"] {
+      --color-fondo: #1a1008;
+      --color-texto: #e0d0b8;
+      --color-nav: #1a1008;
+      --color-borde: #3d2818;
+      --color-hero: #1a1008;
+      --color-hero-alt: #241810;
+      --color-titulo: #f5e8d0;
+      --color-subtitulo: #b09068;
+      --color-badge: #3d2810;
+      --color-placeholder: #3d2818;
+      --color-card: #241810;
+      --color-contadores-fondo: #1a1008;
+      --color-footer-fondo: #0f0804;
+      --color-texto-footer: #705030;
+      --color-form-borde: #3d2818;
+      --color-form-fondo: #1a1008;
+    }
+
+    body {
+      font-family: var(--font-cuerpo);
+      background: var(--color-fondo);
+      color: var(--color-texto);
+      line-height: 1.7;
+      overflow-x: hidden;
+      transition: background 0.5s, color 0.5s;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Nav */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 60px;
+      background: var(--color-nav);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--color-borde);
+      backdrop-filter: blur(10px);
+      transition: box-shadow 0.3s;
+    }
+    .nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.08); }
+    .nav .logo { font-family: var(--font-titulos); font-size: 26px; font-weight: 900; color: var(--color-primario); text-decoration: none; transition: transform 0.3s; }
+    .nav .logo:hover { transform: scale(1.05); }
+    .nav-links { display: flex; gap: 35px; list-style: none; align-items: center; }
+    .nav-links a { text-decoration: none; color: var(--color-texto); font-weight: 600; font-size: 15px; transition: color 0.3s; position: relative; padding: 5px 0; }
+    .nav-links a:hover { color: var(--color-primario); }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--color-primario); transition: width 0.3s; }
+    .nav-links a:hover::after { width: 100%; }
+    .mega-trigger { position: relative; }
+    .mega-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: var(--color-card);
+      border: 1px solid var(--color-borde);
+      border-radius: 16px;
+      padding: 30px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      min-width: 600px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+      z-index: 999;
+    }
+    .mega-trigger:hover .mega-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(5px); }
+    .mega-col h4 { font-family: var(--font-titulos); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--color-primario); margin-bottom: 15px; }
+    .mega-col a { display: block; padding: 6px 0; font-size: 14px; color: var(--color-texto); text-decoration: none; }
+    .mega-col a:hover { color: var(--color-primario); }
+    .btn-nav { background: var(--color-primario); color: #fff; padding: 10px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+    .btn-nav:hover { opacity: 0.9; transform: translateY(-2px); }
+    .nav-actions { display: flex; gap: 10px; align-items: center; }
+    .btn-icon { background: transparent; border: 1px solid var(--color-borde); border-radius: 8px; padding: 8px 12px; cursor: pointer; font-size: 16px; color: var(--color-texto); transition: all 0.3s; }
+    .btn-icon:hover { background: var(--color-primario); color: #fff; border-color: var(--color-primario); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+    .hamburger span { width: 25px; height: 2px; background: var(--color-texto); transition: all 0.3s; }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+    /* Hero */
+    .page-hero {
+      padding: 100px 60px;
+      text-align: center;
+      background: linear-gradient(135deg, var(--color-hero) 0%, var(--color-hero-alt) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero .badge { display: inline-block; background: var(--color-badge); color: var(--color-primario); padding: 8px 20px; border-radius: 30px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+    .page-hero h1 { font-family: var(--font-titulos); font-size: 52px; color: var(--color-titulo); margin-bottom: 20px; }
+    .page-hero p { font-size: 18px; color: var(--color-subtitulo); max-width: 650px; margin: 0 auto; }
+
+    /* Servicios detallados */
+    .seccion { padding: 80px 60px; }
+    .servicio-bloque {
+      max-width: 1200px;
+      margin: 0 auto 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .servicio-bloque:last-child { margin-bottom: 0; }
+    .servicio-bloque.invertido .servicio-texto { order: 1; }
+    .servicio-bloque.invertido .servicio-visual { order: 0; }
+    .servicio-texto h2 { font-family: var(--font-titulos); font-size: 36px; color: var(--color-titulo); margin-bottom: 20px; }
+    .servicio-texto .precio { font-family: var(--font-titulos); font-size: 30px; font-weight: 900; color: var(--color-primario); margin-bottom: 15px; }
+    .servicio-texto ul { list-style: none; margin-bottom: 25px; }
+    .servicio-texto ul li { padding: 10px 0 10px 28px; position: relative; }
+    .servicio-texto ul li::before { content: '✓'; position: absolute; left: 0; color: var(--color-primario); font-weight: 700; }
+    .btn { display: inline-block; background: var(--color-primario); color: #fff; padding: 14px 36px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.3s; position: relative; overflow: hidden; }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .btn::after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: rgba(255,255,255,0.3); border-radius: 50%; transform: translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
+    .btn:active::after { width: 300px; height: 300px; }
+    .servicio-visual { width: 100%; height: 400px; background: var(--color-placeholder); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-family: var(--font-titulos); font-size: 18px; color: var(--color-titulo); }
+
+    /* Calculadora */
+    .calculadora { padding: 80px 60px; background: var(--color-contadores-fondo); }
+    .seccion-header { text-align: center; margin-bottom: 60px; }
+    .seccion-header h2 { font-family: var(--font-titulos); font-size: 44px; color: var(--color-titulo); margin-bottom: 15px; }
+    .seccion-header p { font-size: 18px; color: var(--color-subtitulo); max-width: 650px; margin: 0 auto; }
+    .calc-container { max-width: 700px; margin: 0 auto; background: var(--color-card); padding: 50px; border-radius: 20px; border: 1px solid var(--color-borde); }
+    .calc-item { margin-bottom: 25px; }
+    .calc-item label { display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 8px; color: var(--color-titulo); }
+    .calc-item input[type="range"] { width: 100%; accent-color: var(--color-primario); }
+    .calc-total { text-align: center; margin-top: 30px; }
+    .calc-total .precio-final { font-family: var(--font-titulos); font-size: 48px; font-weight: 900; color: var(--color-primario); transition: all 0.3s; }
+
+    /* Proceso */
+    .proceso { padding: 80px 60px; }
+    .proceso-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; max-width: 1200px; margin: 0 auto; }
+    .proceso-paso { text-align: center; padding: 40px 25px; border-radius: 16px; background: var(--color-card); border: 1px solid var(--color-borde); transition: transform 0.3s; }
+    .proceso-paso:hover { transform: translateY(-8px); }
+    .proceso-paso .paso-num { font-family: var(--font-titulos); font-size: 14px; font-weight: 900; color: var(--color-primario); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .proceso-paso h3 { font-family: var(--font-titulos); font-size: 20px; color: var(--color-titulo); margin-bottom: 10px; }
+
+    /* FAQ */
+    .faq { padding: 80px 60px; background: var(--color-contadores-fondo); }
+    .faq-grid { max-width: 800px; margin: 0 auto; }
+    .faq-item { padding: 25px; border-bottom: 1px solid var(--color-borde); }
+    .faq-item h3 { font-family: var(--font-titulos); font-size: 20px; color: var(--color-titulo); margin-bottom: 10px; cursor: pointer; }
+    .faq-item p { color: var(--color-subtitulo); }
+
+    /* CTA */
+    .cta-seccion { padding: 120px 60px; text-align: center; background: linear-gradient(135deg, var(--color-primario) 0%, var(--color-primario-alt) 100%); position: relative; overflow: hidden; }
+    .cta-seccion::before { content: ''; position: absolute; width: 400px; height: 400px; border-radius: 50%; background: rgba(255,255,255,0.05); top: -100px; left: -100px; animation: float 8s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+    .cta-seccion h2 { font-family: var(--font-titulos); font-size: 48px; color: #fff; margin-bottom: 20px; position: relative; z-index: 1; }
+    .cta-seccion p { font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; }
+    .btn-blanco { background: #fff; color: var(--color-primario); padding: 18px 50px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 18px; transition: all 0.3s; display: inline-block; position: relative; z-index: 1; }
+    .btn-blanco:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
+
+    /* Footer */
+    .footer { padding: 60px 60px 30px; background: var(--color-footer-fondo); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
+    .footer-col h4 { font-family: var(--font-titulos); font-size: 16px; color: var(--color-titulo); margin-bottom: 15px; }
+    .footer-col p, .footer-col a { color: var(--color-texto-footer); font-size: 14px; text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s; }
+    .footer-col a:hover { color: var(--color-primario); }
+    .footer-bottom { text-align: center; border-top: 1px solid var(--color-borde); padding-top: 20px; color: var(--color-texto-footer); font-size: 13px; }
+
+    @media (max-width: 1024px) {
+      .servicio-bloque { grid-template-columns: 1fr; }
+      .servicio-bloque.invertido .servicio-texto { order: 0; }
+      .proceso-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .nav-links.mobile-open { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: var(--color-nav); padding: 30px; border-bottom: 1px solid var(--color-borde); gap: 20px; }
+      .mega-menu { display: none !important; }
+      .page-hero h1 { font-size: 36px; }
+      .proceso-grid { grid-template-columns: 1fr; }
+      .seccion { padding: 60px 30px; }
+      .calc-container { padding: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" id="navbar">
+    <a href="inicio.html" class="logo">Beldi</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="inicio.html">Inicio</a></li>
+      <li class="mega-trigger">
+        <a href="servicios.html">Servicios ▾</a>
+        <div class="mega-menu">
+          <div class="mega-col"><h4>Desarrollo</h4><a href="servicios.html">Webs corporativas</a><a href="servicios.html">Ecommerce</a><a href="servicios.html">Apps web</a></div>
+          <div class="mega-col"><h4>Marketing</h4><a href="servicios.html">SEO</a><a href="servicios.html">SEM</a><a href="servicios.html">Redes sociales</a></div>
+          <div class="mega-col"><h4>Diseño</h4><a href="servicios.html">UX Research</a><a href="servicios.html">UI Design</a><a href="servicios.html">Branding</a></div>
+        </div>
+      </li>
+      <li><a href="equipo.html">Equipo</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-icon" id="toggleTema">🌓</button>
+      <button class="btn-icon" id="toggleIdioma">ES</button>
+      <a href="contacto.html" class="btn-nav">Contactar</a>
+    </div>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <section class="page-hero">
+    <span class="badge">🌙 Nuestros dulces</span>
+    <h1>Repostería marroquí artesanal</h1>
+    <p>Cada dulce cuenta una historia. La historia de nuestras abuelas, de nuestras ciudades, de nuestra cultura.</p>
+  </section>
+
+  <section class="seccion">
+    <div class="servicio-bloque reveal">
+      <div class="servicio-texto">
+        <h2>Pastelitos de almendra</h2>
+        <p>El corazón de la pastelería marroquí. Cornes de gazelle rellenos de pasta de almendra y agua de azahar. Briouats crujientes bañados en miel. Kaab el ghazal con su forma de cuerno característica. Todo hecho a mano, uno a uno, con almendra marcona y mantequilla de verdad.</p>
+        <p class="precio">Desde 28€/kg</p>
+        <ul>
+          <li>Almendra marcona seleccionada</li>
+          <li>Agua de azahar natural</li>
+          <li>Masa filo hecha a mano</li>
+          <li>Presentación en cajas tradicionales</li>
+        </ul>
+        <a href="contacto.html" class="btn">Ver pastelitos</a>
+      </div>
+      <img src="assets/images/servicio_pastelitos.jpg" alt="Pastelitos de almendra" class="servicio-visual" style="object-fit:cover;width:100%;height:400px;border-radius:20px;">
+    </div>
+    <div class="servicio-bloque invertido reveal">
+      <div class="servicio-texto">
+        <h2>Dulces de miel y sésamo</h2>
+        <p>La miel es el alma de nuestra repostería. Chebakia en forma de flor, frita y bañada en miel pura del Rif. Mhancha enrollada con pasta de almendra. Sfouf esponjoso con sésamo tostado. Dulces que endulzan el alma y te transportan a un zoco de Marrakech.</p>
+        <p class="precio">Desde 24€/kg</p>
+        <ul>
+          <li>Miel pura de la región del Rif</li>
+          <li>Sésamo tostado artesanalmente</li>
+          <li>Especias traídas de Marruecos</li>
+          <li>Elaboración manual, sin moldes industriales</li>
+        </ul>
+        <a href="contacto.html" class="btn">Ver dulces de miel</a>
+      </div>
+      <img src="assets/images/servicio_miel.jpg" alt="Dulces de miel y sésamo" class="servicio-visual" style="object-fit:cover;width:100%;height:400px;border-radius:20px;">
+    </div>
+    <div class="servicio-bloque reveal">
+      <div class="servicio-texto">
+        <h2>Mesas dulces para celebraciones</h2>
+        <p>Bodas, bautizos, Eid, Ramadán o cualquier ocasión especial. Preparamos mesas dulces completas con una selección personalizada de nuestros mejores dulces. Te asesoramos sobre cantidades, variedades y presentación para que tu evento sea inolvidable.</p>
+        <p class="precio">Desde 15€/persona</p>
+        <ul>
+          <li>Selección personalizada de 8-12 variedades</li>
+          <li>Presentación en bandejas tradicionales marroquíes</li>
+          <li>Té con hierbabuena para todos los invitados</li>
+          <li>Montaje y entrega el día del evento</li>
+        </ul>
+        <a href="contacto.html" class="btn">Pedir presupuesto</a>
+      </div>
+      <img src="assets/images/servicio_mesadulce.jpg" alt="Mesas dulces para celebraciones" class="servicio-visual" style="object-fit:cover;width:100%;height:400px;border-radius:20px;">
+    </div>
+  </section>
+
+  <section class="calculadora reveal">
+    <div class="seccion-header">
+      <h2>Calcula los dulces para tu celebración</h2>
+      <p>¿Cuántos invitados? ¿Qué tipo de evento? Te orientamos.</p>
+    </div>
+    <div class="calc-container">
+      <div class="calc-item">
+        <label>Número de invitados: <span id="calcVal1">1</span></label>
+        <input type="range" min="1" max="10" value="1" id="calcSlider1">
+      </div>
+      <div class="calc-item">
+        <label>Variedades de dulces distintas: <span id="calcVal2">1</span></label>
+        <input type="range" min="1" max="12" value="1" id="calcSlider2">
+      </div>
+      <div class="calc-item">
+        <label>Duración del evento (horas): <span id="calcVal3">0</span></label>
+        <input type="range" min="0" max="5" value="0" id="calcSlider3">
+      </div>
+      <div class="calc-total">
+        <p style="color:var(--color-subtitulo);">Dulces recomendados (kg):</p>
+        <p class="precio-final" id="calcTotal">Desde 5.000€</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="proceso reveal">
+    <div class="seccion-header">
+      <h2>Cómo hacemos nuestros dulces</h2>
+      <p>Recetas centenarias, manos expertas, ingredientes de Marruecos.</p>
+    </div>
+    <div class="proceso-grid">
+      <div class="proceso-paso"><p class="paso-num">Paso 1</p><h3>Seleccionamos los ingredientes</h3><p>Almendra marcona, miel del Rif, agua de azahar de Kelaat M'Gouna. Traemos lo mejor de Marruecos para que el sabor sea auténtico.</p></div>
+      <div class="proceso-paso"><p class="paso-num">Paso 2</p><h3>Amasamos como nuestras abuelas</h3><p>Sin prisas, sin máquinas que sustituyan el tacto de las manos. Cada pastelito se forma uno a uno, como se ha hecho siempre en los hogares marroquíes.</p></div>
+      <div class="proceso-paso"><p class="paso-num">Paso 3</p><h3>Horneamos y bañamos en miel</h3><p>Cada variedad tiene su punto exacto de cocción. Unos se hornean, otros se fríen. Todos se terminan con un baño de miel pura que los hace brillar.</p></div>
+      <div class="proceso-paso"><p class="paso-num">Paso 4</p><h3>Presentamos con orgullo</h3><p>Cada caja se prepara con mimo. Parece un regalo, y lo es. Te lo llevas con instrucciones de conservación y una bolsita de té con hierbabuena de regalo.</p></div>
+    </div>
+  </section>
+
+  <section class="faq reveal">
+    <div class="seccion-header"><h2>Preguntas frecuentes</h2><p>Lo que nos preguntáis sobre nuestra pastelería.</p></div>
+    <div class="faq-grid">
+      <div class="faq-item"><h3>¿Qué significa 'Beldi'?</h3><p>Beldi significa tradicional, auténtico, de la tierra. En Marruecos se usa para describir lo que está hecho con raíces, con alma, sin atajos. Y así hacemos nuestra pastelería.</p></div>
+      <div class="faq-item"><h3>¿Cuánto duran los dulces?</h3><p>Bien conservados en lugar fresco y seco, aguantan perfectamente 10-15 días. Los de miel incluso más. Te damos instrucciones de conservación con cada pedido.</p></div>
+      <div class="faq-item"><h3>¿Tenéis opciones sin gluten?</h3><p>Muchos de nuestros dulces llevan sémola o harina. Consulta con nosotras y te indicamos cuáles son sin gluten. La ghriba de coco y algunos pastelitos de almendra sí lo son.</p></div>
+      <div class="faq-item"><h3>¿Se pueden congelar?</h3><p>Sí. La mayoría de nuestros dulces se congelan perfectamente. Sácalos una hora antes de servir y estarán como recién hechos. Ideal para tener siempre un antojo marroquí a mano.</p></div>
+    </div>
+  </section>
+
+  <section class="cta-seccion reveal">
+    <h2>¿Te apetece probar Marruecos?</h2>
+    <p>Ven a nuestra tienda. Te invitamos a un té con hierbabuena y te contamos la historia de cada dulce.</p>
+    <a href="contacto.html" class="btn-blanco">Visitar la tienda</a>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col"><h4>Beldi</h4><p>Beldi significa 'tradicional' en árabe. Y eso es lo que hacemos: pastelería marroquí auténtica, con las recetas de nuestras abuelas y los ingredientes de siempre. Desde 2012 endulzando Madrid con sabor a Marruecos.</p></div>
+      <div class="footer-col"><h4>Pastelería</h4><a href="inicio.html">Inicio</a><a href="servicios.html">Servicios</a><a href="equipo.html">Equipo</a></div>
+      <div class="footer-col"><h4>Descubre</h4><a href="blog.html">Blog</a><a href="contacto.html">Contacto</a><a href="#">Preguntas frecuentes</a></div>
+      <div class="footer-col"><h4>Contacto</h4><p>Calle Lavapiés 22, 28012 Madrid</p><p>hola@beldipasteleria.es</p><p>+34 912 345 678</p></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Beldi. بسم الله - Hecho con las manos, el corazón y miel de verdad.</p></div>
+  </footer>
+
+  <a href="#" class="btn-subir" id="btnSubir" style="position:fixed;bottom:30px;right:30px;background:var(--color-primario);color:#fff;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:22px;opacity:0;visibility:hidden;transition:all 0.3s;box-shadow:0 4px 15px rgba(0,0,0,0.2);z-index:999;">↑</a>
+
+  <script>
+    const revealElements = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    revealElements.forEach(el => observer.observe(el));
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+      const btnSubir = document.getElementById('btnSubir');
+      btnSubir.classList.toggle('visible', window.scrollY > 600);
+    });
+
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navLinks.classList.toggle('mobile-open'); });
+
+    const toggleTema = document.getElementById('toggleTema');
+    toggleTema.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-tema');
+      document.documentElement.setAttribute('data-tema', current === 'dark' ? 'light' : 'dark');
+      localStorage.setItem('tema', current === 'dark' ? 'light' : 'dark');
+    });
+    const savedTema = localStorage.getItem('tema');
+    if (savedTema) document.documentElement.setAttribute('data-tema', savedTema);
+
+    const s1 = document.getElementById('calcSlider1');
+    const s2 = document.getElementById('calcSlider2');
+    const s3 = document.getElementById('calcSlider3');
+    function actualizarCalc() {
+      document.getElementById('calcVal1').textContent = s1.value;
+      document.getElementById('calcVal2').textContent = s2.value;
+      document.getElementById('calcVal3').textContent = s3.value;
+      const total = 3000 + (parseInt(s1.value) * 1500) + (parseInt(s2.value) * 1000) + (parseInt(s3.value) * 800);
+      document.getElementById('calcTotal').textContent = 'Desde ' + total.toLocaleString() + '€';
+    }
+    s1.addEventListener('input', actualizarCalc);
+    s2.addEventListener('input', actualizarCalc);
+    s3.addEventListener('input', actualizarCalc);
+  </script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+﻿<!DOCTYPE html>
+<html lang="es" data-idioma="ES">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Equipo de Beldi - Maestras pasteleras marroquíes. Sus abuelas les enseñaron y ellas te lo cuentan en cada bocado.">
+  <title>Beldi | Equipo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@400;600&display=swap');
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --color-fondo: #fdf9f3;
+      --color-texto: #3d2c1a;
+      --color-nav: #fdf9f3;
+      --color-borde: #e0d0b8;
+      --color-primario: #c4883c;
+      --color-primario-alt: #a06828;
+      --color-hero: #f8efe0;
+      --color-hero-alt: #f0e4d0;
+      --color-titulo: #2d1a08;
+      --color-subtitulo: #8a6b45;
+      --color-badge: #fce8d0;
+      --color-placeholder: #e8d8c0;
+      --color-card: #ffffff;
+      --color-contadores-fondo: #f8efe0;
+      --color-footer-fondo: #2d1a08;
+      --color-texto-footer: #b89060;
+      --font-titulos: 'Playfair Display', sans-serif;
+      --font-cuerpo: 'Lato', sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root --color-fondo: #1a1008; --color-texto: #e0d0b8; --color-nav: #1a1008; --color-borde: #3d2818; --color-hero: #1a1008; --color-hero-alt: #241810; --color-titulo: #f5e8d0; --color-subtitulo: #b09068; --color-badge: #3d2810; --color-placeholder: #3d2818; --color-card: #241810; --color-contadores-fondo: #1a1008; --color-testimonios-fondo: #1a1008; --color-testimonios-item: #241810; --color-footer-fondo: #0f0804; --color-texto-footer: #705030; --color-form-borde: #3d2818; --color-form-fondo: #1a1008;
+    }
+    [data-tema="dark"] {
+      --color-fondo: #1a1008;
+      --color-texto: #e0d0b8;
+      --color-nav: #1a1008;
+      --color-borde: #3d2818;
+      --color-hero: #1a1008;
+      --color-hero-alt: #241810;
+      --color-titulo: #f5e8d0;
+      --color-subtitulo: #b09068;
+      --color-badge: #3d2810;
+      --color-placeholder: #3d2818;
+      --color-card: #241810;
+      --color-contadores-fondo: #1a1008;
+      --color-footer-fondo: #0f0804;
+      --color-texto-footer: #705030;
+    }
+
+    body { font-family: var(--font-cuerpo); background: var(--color-fondo); color: var(--color-texto); line-height: 1.7; overflow-x: hidden; transition: background 0.5s, color 0.5s; }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 60px; background: var(--color-nav); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--color-borde); backdrop-filter: blur(10px); transition: box-shadow 0.3s; }
+    .nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.08); }
+    .nav .logo { font-family: var(--font-titulos); font-size: 26px; font-weight: 900; color: var(--color-primario); text-decoration: none; transition: transform 0.3s; }
+    .nav .logo:hover { transform: scale(1.05); }
+    .nav-links { display: flex; gap: 35px; list-style: none; align-items: center; }
+    .nav-links a { text-decoration: none; color: var(--color-texto); font-weight: 600; font-size: 15px; transition: color 0.3s; position: relative; padding: 5px 0; }
+    .nav-links a:hover { color: var(--color-primario); }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--color-primario); transition: width 0.3s; }
+    .nav-links a:hover::after { width: 100%; }
+    .mega-trigger { position: relative; }
+    .mega-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); background: var(--color-card); border: 1px solid var(--color-borde); border-radius: 16px; padding: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; min-width: 600px; opacity: 0; visibility: hidden; transition: all 0.3s ease; box-shadow: 0 20px 50px rgba(0,0,0,0.15); z-index: 999; }
+    .mega-trigger:hover .mega-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(5px); }
+    .mega-col h4 { font-family: var(--font-titulos); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--color-primario); margin-bottom: 15px; }
+    .mega-col a { display: block; padding: 6px 0; font-size: 14px; color: var(--color-texto); text-decoration: none; }
+    .mega-col a:hover { color: var(--color-primario); }
+    .btn-nav { background: var(--color-primario); color: #fff; padding: 10px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+    .btn-nav:hover { opacity: 0.9; transform: translateY(-2px); }
+    .nav-actions { display: flex; gap: 10px; align-items: center; }
+    .btn-icon { background: transparent; border: 1px solid var(--color-borde); border-radius: 8px; padding: 8px 12px; cursor: pointer; font-size: 16px; color: var(--color-texto); transition: all 0.3s; }
+    .btn-icon:hover { background: var(--color-primario); color: #fff; border-color: var(--color-primario); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+    .hamburger span { width: 25px; height: 2px; background: var(--color-texto); transition: all 0.3s; }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+    .page-hero { padding: 100px 60px; text-align: center; background: linear-gradient(135deg, var(--color-hero) 0%, var(--color-hero-alt) 100%); }
+    .page-hero .badge { display: inline-block; background: var(--color-badge); color: var(--color-primario); padding: 8px 20px; border-radius: 30px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+    .page-hero h1 { font-family: var(--font-titulos); font-size: 52px; color: var(--color-titulo); margin-bottom: 20px; }
+    .page-hero p { font-size: 18px; color: var(--color-subtitulo); max-width: 650px; margin: 0 auto; }
+
+    .seccion { padding: 80px 60px; }
+    .seccion-header { text-align: center; margin-bottom: 60px; }
+    .seccion-header h2 { font-family: var(--font-titulos); font-size: 44px; color: var(--color-titulo); margin-bottom: 15px; }
+    .seccion-header p { font-size: 18px; color: var(--color-subtitulo); max-width: 650px; margin: 0 auto; }
+
+    .equipo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; }
+    .miembro-card { border-radius: 20px; overflow: hidden; background: var(--color-card); border: 1px solid var(--color-borde); transition: all 0.4s ease; }
+    .miembro-card:hover { transform: translateY(-12px); box-shadow: 0 30px 60px rgba(0,0,0,0.15); }
+    .miembro-foto { width: 100%; height: 320px; object-fit: cover; }
+    .miembro-info { padding: 25px; text-align: center; }
+    .miembro-info h3 { font-family: var(--font-titulos); font-size: 22px; color: var(--color-titulo); margin-bottom: 6px; }
+    .miembro-info .cargo { color: var(--color-primario); font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .miembro-info .bio { margin-bottom: 15px; font-size: 14px; color: var(--color-subtitulo); }
+    .miembro-redes { display: flex; gap: 12px; justify-content: center; }
+    .miembro-redes a { color: var(--color-subtitulo); text-decoration: none; font-size: 14px; transition: color 0.3s; font-weight: 600; }
+    .miembro-redes a:hover { color: var(--color-primario); }
+
+    .valores { padding: 80px 60px; background: var(--color-contadores-fondo); }
+    .valores-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; max-width: 1200px; margin: 0 auto; }
+    .valor-item { text-align: center; padding: 40px 25px; border-radius: 16px; background: var(--color-card); border: 1px solid var(--color-borde); transition: transform 0.3s; }
+    .valor-item:hover { transform: translateY(-8px); }
+    .valor-item .icono { font-size: 48px; margin-bottom: 15px; }
+    .valor-item h3 { font-family: var(--font-titulos); font-size: 20px; color: var(--color-titulo); margin-bottom: 10px; }
+
+    .cifras { padding: 80px 60px; text-align: center; }
+    .cifras-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1100px; margin: 0 auto; }
+    .cifra-item .numero { font-family: var(--font-titulos); font-size: 52px; font-weight: 900; color: var(--color-primario); }
+    .cifra-item .etiqueta { font-size: 15px; color: var(--color-subtitulo); margin-top: 8px; }
+
+    .galeria { padding: 80px 60px; background: var(--color-contadores-fondo); }
+    .galeria-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; max-width: 1200px; margin: 0 auto; }
+    .galeria-item { width: 100%; height: 200px; object-fit: cover; border-radius: 12px; cursor: pointer; transition: all 0.3s; }
+    .galeria-item:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+
+    .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; display: none; align-items: center; justify-content: center; }
+    .lightbox.abierto { display: flex; }
+    .lightbox img { max-width: 90%; max-height: 90%; border-radius: 16px; object-fit: contain; }
+    .lightbox-cerrar { position: absolute; top: 20px; right: 30px; font-size: 40px; color: #fff; cursor: pointer; background: none; border: none; z-index: 10; }
+    .lightbox-flecha { position: absolute; top: 50%; font-size: 50px; color: #fff; cursor: pointer; background: none; border: none; transform: translateY(-50%); z-index: 10; }
+    .lightbox-flecha.izq { left: 30px; }
+    .lightbox-flecha.der { right: 30px; }
+
+    .cta-seccion { padding: 120px 60px; text-align: center; background: linear-gradient(135deg, var(--color-primario) 0%, var(--color-primario-alt) 100%); position: relative; overflow: hidden; }
+    .cta-seccion::before { content: ''; position: absolute; width: 400px; height: 400px; border-radius: 50%; background: rgba(255,255,255,0.05); top: -100px; left: -100px; animation: float 8s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+    .cta-seccion h2 { font-family: var(--font-titulos); font-size: 48px; color: #fff; margin-bottom: 20px; position: relative; z-index: 1; }
+    .cta-seccion p { font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; }
+    .btn-blanco { background: #fff; color: var(--color-primario); padding: 18px 50px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 18px; transition: all 0.3s; display: inline-block; position: relative; z-index: 1; }
+    .btn-blanco:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
+
+    .footer { padding: 60px 60px 30px; background: var(--color-footer-fondo); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
+    .footer-col h4 { font-family: var(--font-titulos); font-size: 16px; color: var(--color-titulo); margin-bottom: 15px; }
+    .footer-col p, .footer-col a { color: var(--color-texto-footer); font-size: 14px; text-decoration: none; display: block; margin-bottom: 8px; transition: color 0.3s; }
+    .footer-col a:hover { color: var(--color-primario); }
+    .footer-bottom { text-align: center; border-top: 1px solid var(--color-borde); padding-top: 20px; color: var(--color-texto-footer); font-size: 13px; }
+
+    @media (max-width: 1024px) { .equipo-grid { grid-template-columns: repeat(2, 1fr); } .galeria-grid { grid-template-columns: repeat(2, 1fr); } .valores-grid { grid-template-columns: repeat(2, 1fr); } .cifras-grid { grid-template-columns: repeat(2, 1fr); } .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 768px) { .nav-links { display: none; } .hamburger { display: flex; } .nav-links.mobile-open { display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: var(--color-nav); padding: 30px; border-bottom: 1px solid var(--color-borde); gap: 20px; } .mega-menu { display: none !important; } .equipo-grid { grid-template-columns: 1fr; } .galeria-grid { grid-template-columns: 1fr; } .valores-grid { grid-template-columns: 1fr; } .cifras-grid { grid-template-columns: 1fr; } .page-hero h1 { font-size: 36px; } .seccion { padding: 60px 30px; } }
+  </style>
+</head>
+<body>
+  <nav class="nav" id="navbar">
+    <a href="inicio.html" class="logo">Beldi</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="inicio.html">Inicio</a></li>
+      <li class="mega-trigger"><a href="servicios.html">Servicios ▾</a><div class="mega-menu"><div class="mega-col"><h4>Desarrollo</h4><a href="servicios.html">Webs corporativas</a><a href="servicios.html">Ecommerce</a><a href="servicios.html">Apps web</a></div><div class="mega-col"><h4>Marketing</h4><a href="servicios.html">SEO</a><a href="servicios.html">SEM</a><a href="servicios.html">Redes sociales</a></div><div class="mega-col"><h4>Diseño</h4><a href="servicios.html">UX Research</a><a href="servicios.html">UI Design</a><a href="servicios.html">Branding</a></div></div></li>
+      <li><a href="equipo.html">Equipo</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contacto.html">Contacto</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-icon" id="toggleTema">🌓</button>
+      <button class="btn-icon" id="toggleIdioma">ES</button>
+      <a href="contacto.html" class="btn-nav">Contactar</a>
+    </div>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <section class="page-hero">
+    <span class="badge">🌙 Quiénes hornean</span>
+    <h1>Las manos que amasan la tradición</h1>
+    <p>Maestras pasteleras marroquíes. Sus abuelas les enseñaron y ellas te lo cuentan en cada bocado.</p>
+  </section>
+
+  <section class="seccion reveal">
+    <div class="seccion-header"><h2>Nuestras maestras</h2><p>Mujeres que llevan Marruecos en las manos y en el corazón.</p></div>
+    <div class="equipo-grid">
+      <div class="miembro-card"><img src="assets/images/pastelera_amina.jpg" alt="Amina Benali" class="miembro-foto"><div class="miembro-info"><h3>Amina Benali</h3><p class="cargo">Fundadora & Maestra Pastelera</p><p class="bio">Nacida en Fez, criada entre harina y almendra. Aprendió de su abuela y trajo sus recetas a Madrid en 2012. Dice que cada pastelito le recuerda a su infancia.</p><div class="miembro-redes"><a href="#">LinkedIn</a><a href="#">Twitter</a></div></div></div>
+      <div class="miembro-card"><img src="assets/images/pastelera_khadija.jpg" alt="Khadija El Fassi" class="miembro-foto"><div class="miembro-info"><h3>Khadija El Fassi</h3><p class="cargo">Maestra Pastelera Senior</p><p class="bio">60 años y las manos más rápidas del obrador. Especialista en chebakia y mhancha. Dice que el secreto está en la miel y en no tener prisa nunca.</p><div class="miembro-redes"><a href="#">LinkedIn</a><a href="#">Twitter</a></div></div></div>
+      <div class="miembro-card"><img src="assets/images/pastelera_yasmin.jpg" alt="Yasmin Choukri" class="miembro-foto"><div class="miembro-info"><h3>Yasmin Choukri</h3><p class="cargo">Maestra Pastelera & Creativa</p><p class="bio">De Tánger. La más joven del equipo y la que innova respetando la tradición. Sus combinaciones de especias son poesía comestible.</p><div class="miembro-redes"><a href="#">LinkedIn</a><a href="#">Twitter</a></div></div></div>
+      <div class="miembro-card"><img src="assets/images/te_abdel.jpg" alt="Abdel El Idrissi" class="miembro-foto"><div class="miembro-info"><h3>Abdel El Idrissi</h3><p class="cargo">Maestro del Té & Atención al Cliente</p><p class="bio">Prepara el té con hierbabuena como solo se hace en Marruecos: desde lo alto, con espuma y con una sonrisa. Dice que un buen té es la mejor bienvenida.</p><div class="miembro-redes"><a href="#">LinkedIn</a><a href="#">Twitter</a></div></div></div>
+    </div>
+  </section>
+
+  <section class="valores reveal">
+    <div class="seccion-header"><h2>Nuestra filosofía</h2><p>Lo que aprendimos de nuestras abuelas y aplicamos cada día.</p></div>
+    <div class="valores-grid">
+      <div class="valor-item"><div class="icono">🤲</div><h3>Hecho a mano, siempre</h3><p>No usamos moldes industriales ni máquinas que sustituyan el tacto. Cada pastelito se forma con las manos, como se ha hecho durante siglos en Marruecos.</p></div>
+      <div class="valor-item"><div class="icono">🇲🇦</div><h3>Ingredientes de Marruecos</h3><p>Traemos la almendra, la miel, el agua de azahar y las especias directamente de Marruecos. El sabor auténtico no se consigue con sucedáneos.</p></div>
+      <div class="valor-item"><div class="icono">🍵</div><h3>Hospitalidad marroquí</h3><p>En Marruecos, quien entra en tu casa es sagrado. Te ofrecemos té con hierbabuena nada más cruzar la puerta. No eres un cliente, eres un invitado.</p></div>
+      <div class="valor-item"><div class="icono">📜</div><h3>Recetas centenarias</h3><p>Nuestras recetas pasan de madres a hijas desde hace generaciones. No inventamos, preservamos. No innovamos, honramos. La tradición no necesita mejoras.</p></div>
+    </div>
+  </section>
+
+  <section class="galeria reveal">
+    <div class="seccion-header"><h2>Nuestro obrador</h2><p>Donde la magia marroquí se hornea cada mañana.</p></div>
+    <div class="galeria-grid" id="galeriaGrid">
+      <img src="assets/images/obrador_mostrador.jpg" alt="Galería 1" class="galeria-item" data-galeria="1">
+      <img src="assets/images/obrador_cornes.jpg" alt="Galería 2" class="galeria-item" data-galeria="2">
+      <img src="assets/images/obrador_chebakia.jpg" alt="Galería 3" class="galeria-item" data-galeria="3">
+      <img src="assets/images/obrador_briouats.jpg" alt="Galería 4" class="galeria-item" data-galeria="4">
+      <img src="assets/images/obrador_mhancha.jpg" alt="Galería 5" class="galeria-item" data-galeria="5">
+      <img src="assets/images/obrador_te.jpg" alt="Galería 6" class="galeria-item" data-galeria="6">
+      <img src="assets/images/obrador_especias.jpg" alt="Galería 7" class="galeria-item" data-galeria="7">
+      <img src="assets/images/obrador_equipo.jpg" alt="Galería 8" class="galeria-item" data-galeria="8">
+    </div>
+  </section>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-cerrar" id="lbCerrar">✕</button>
+    <button class="lightbox-flecha izq" id="lbPrev">‹</button>
+    <img id="lbImagen" src="" alt="Lightbox">
+    <button class="lightbox-flecha der" id="lbNext">›</button>
+  </div>
+
+  <section class="cifras reveal">
+    <div class="cifras-grid">
+      <div class="cifra-item"><span class="numero" data-contador="12">0</span><span class="etiqueta">Años horneando</span></div>
+      <div class="cifra-item"><span class="numero" data-contador="35">0</span><span class="etiqueta">Variedades de dulces</span></div>
+      <div class="cifra-item"><span class="numero" data-contador="4">0</span><span class="etiqueta">Maestras pasteleras</span></div>
+      <div class="cifra-item"><span class="numero" data-contador="4.8">0</span><span class="etiqueta">/5 Valoración en Google</span></div>
+    </div>
+  </section>
+
+  <section class="cta-seccion reveal">
+    <h2>¿Eres pastelera marroquí?</h2>
+    <p>Buscamos manos expertas en repostería tradicional marroquí. Si conoces los secretos de la masa filo y la miel, escríbenos.</p>
+    <a href="contacto.html" class="btn-blanco">Enviar CV</a>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col"><h4>Beldi</h4><p>Beldi significa 'tradicional' en árabe. Y eso es lo que hacemos: pastelería marroquí auténtica, con las recetas de nuestras abuelas y los ingredientes de siempre. Desde 2012 endulzando Madrid con sabor a Marruecos.</p></div>
+      <div class="footer-col"><h4>Pastelería</h4><a href="inicio.html">Inicio</a><a href="servicios.html">Servicios</a><a href="equipo.html">Equipo</a></div>
+      <div class="footer-col"><h4>Descubre</h4><a href="blog.html">Blog</a><a href="contacto.html">Contacto</a><a href="#">Preguntas frecuentes</a></div>
+      <div class="footer-col"><h4>Contacto</h4><p>Calle Lavapiés 22, 28012 Madrid</p><p>hola@beldipasteleria.es</p><p>+34 912 345 678</p></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Beldi. بسم الله - Hecho con las manos, el corazón y miel de verdad.</p></div>
+  </footer>
+
+  <a href="#" class="btn-subir" id="btnSubir" style="position:fixed;bottom:30px;right:30px;background:var(--color-primario);color:#fff;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:22px;opacity:0;visibility:hidden;transition:all 0.3s;box-shadow:0 4px 15px rgba(0,0,0,0.2);z-index:999;">↑</a>
+
+  <script>
+    const revealElements = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.15 });
+    revealElements.forEach(el => observer.observe(el));
+
+    const contadores = document.querySelectorAll('[data-contador]');
+    const observerContadores = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.getAttribute('data-contador'));
+          const duration = 2000;
+          const start = performance.now();
+          function update(now) { const elapsed = now - start; const progress = Math.min(elapsed / duration, 1); const eased = 1 - Math.pow(1 - progress, 3); el.textContent = Math.floor(eased * target) + (target >= 100 ? '+' : ''); if (progress < 1) requestAnimationFrame(update); }
+          requestAnimationFrame(update);
+          observerContadores.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    contadores.forEach(el => observerContadores.observe(el));
+
+    window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50); document.getElementById('btnSubir').classList.toggle('visible', window.scrollY > 600); });
+    const hamburger = document.getElementById('hamburger'); const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navLinks.classList.toggle('mobile-open'); });
+    const toggleTema = document.getElementById('toggleTema');
+    toggleTema.addEventListener('click', () => { const current = document.documentElement.getAttribute('data-tema'); document.documentElement.setAttribute('data-tema', current === 'dark' ? 'light' : 'dark'); localStorage.setItem('tema', current === 'dark' ? 'light' : 'dark'); });
+    const savedTema = localStorage.getItem('tema'); if (savedTema) document.documentElement.setAttribute('data-tema', savedTema);
+
+    const lightbox = document.getElementById('lightbox'); const lbImagen = document.getElementById('lbImagen');
+    const lbCerrar = document.getElementById('lbCerrar'); const lbPrev = document.getElementById('lbPrev'); const lbNext = document.getElementById('lbNext');
+    let galeriaItems = []; let lbIndex = 0;
+    document.querySelectorAll('.galeria-item').forEach((item, index) => { galeriaItems.push(item.getAttribute('src')); item.addEventListener('click', () => { lbIndex = index; lbImagen.src = galeriaItems[lbIndex]; lightbox.classList.add('abierto'); }); });
+    lbCerrar.addEventListener('click', () => lightbox.classList.remove('abierto'));
+    lbPrev.addEventListener('click', () => { lbIndex = (lbIndex - 1 + galeriaItems.length) % galeriaItems.length; lbImagen.src = galeriaItems[lbIndex]; });
+    lbNext.addEventListener('click', () => { lbIndex = (lbIndex + 1) % galeriaItems.length; lbImagen.src = galeriaItems[lbIndex]; });
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.remove('abierto'); });
+    document.addEventListener('keydown', (e) => { if (!lightbox.classList.contains('abierto')) return; if (e.key === 'Escape') lightbox.classList.remove('abierto'); if (e.key === 'ArrowLeft') { lbIndex = (lbIndex - 1 + galeriaItems.length) % galeriaItems.length; lbImagen.src = galeriaItems[lbIndex]; } if (e.key === 'ArrowRight') { lbIndex = (lbIndex + 1) % galeriaItems.length; lbImagen.src = galeriaItems[lbIndex]; } });
+  </script>
+</body>
+</html>

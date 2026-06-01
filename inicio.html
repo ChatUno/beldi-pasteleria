@@ -1,0 +1,922 @@
+﻿<!DOCTYPE html>
+<html lang="es" data-idioma="ES">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Beldi - Pastelería marroquí artesanal en Madrid. Dulces tradicionales de Marrakech, Fez y Tánger hechos a mano como en la medina.">
+  <title>Beldi | Pastelería marroquí</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@400;600&display=swap');
+    /* ========== RESET Y VARIABLES CSS ========== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --color-fondo: #fdf9f3;
+      --color-texto: #3d2c1a;
+      --color-nav: #fdf9f3;
+      --color-borde: #e0d0b8;
+      --color-primario: #c4883c;
+      --color-primario-alt: #a06828;
+      --color-hero: #f8efe0;
+      --color-hero-alt: #f0e4d0;
+      --color-titulo: #2d1a08;
+      --color-subtitulo: #8a6b45;
+      --color-badge: #fce8d0;
+      --color-placeholder: #e8d8c0;
+      --color-card: #ffffff;
+      --color-contadores-fondo: #f8efe0;
+      --color-testimonios-fondo: #f8efe0;
+      --color-testimonios-item: #ffffff;
+      --color-estrellas: #c4883c;
+      --color-footer-fondo: #2d1a08;
+      --color-texto-footer: #b89060;
+      --font-titulos: 'Playfair Display', sans-serif;
+      --font-cuerpo: 'Lato', sans-serif;
+    }
+
+    /* Modo oscuro */
+    @media (prefers-color-scheme: dark) {
+      :root --color-fondo: #1a1008; --color-texto: #e0d0b8; --color-nav: #1a1008; --color-borde: #3d2818; --color-hero: #1a1008; --color-hero-alt: #241810; --color-titulo: #f5e8d0; --color-subtitulo: #b09068; --color-badge: #3d2810; --color-placeholder: #3d2818; --color-card: #241810; --color-contadores-fondo: #1a1008; --color-testimonios-fondo: #1a1008; --color-testimonios-item: #241810; --color-footer-fondo: #0f0804; --color-texto-footer: #705030; --color-form-borde: #3d2818; --color-form-fondo: #1a1008;
+    }
+    [data-tema="dark"] {
+      --color-fondo: #1a1008;
+      --color-texto: #e0d0b8;
+      --color-nav: #1a1008;
+      --color-borde: #3d2818;
+      --color-hero: #1a1008;
+      --color-hero-alt: #241810;
+      --color-titulo: #f5e8d0;
+      --color-subtitulo: #b09068;
+      --color-badge: #3d2810;
+      --color-placeholder: #3d2818;
+      --color-card: #241810;
+      --color-contadores-fondo: #1a1008;
+      --color-testimonios-fondo: #1a1008;
+      --color-testimonios-item: #241810;
+      --color-footer-fondo: #0f0804;
+      --color-texto-footer: #705030;
+    }
+
+    body {
+      font-family: var(--font-cuerpo);
+      background: var(--color-fondo);
+      color: var(--color-texto);
+      line-height: 1.7;
+      overflow-x: hidden;
+      transition: background 0.5s, color 0.5s;
+    }
+
+    /* ========== ANIMACIONES REVEAL ========== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== NAVEGACIÓN ========== */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 60px;
+      background: var(--color-nav);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--color-borde);
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+    .nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.08); }
+    .nav .logo {
+      font-family: var(--font-titulos);
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--color-primario);
+      text-decoration: none;
+      transition: transform 0.3s;
+    }
+    .nav .logo:hover { transform: scale(1.05); }
+    .nav-links {
+      display: flex;
+      gap: 35px;
+      list-style: none;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--color-texto);
+      font-weight: 600;
+      font-size: 15px;
+      transition: color 0.3s;
+      position: relative;
+      padding: 5px 0;
+    }
+    .nav-links a:hover { color: var(--color-primario); }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--color-primario);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* Megamenú */
+    .mega-trigger { position: relative; }
+    .mega-menu {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: var(--color-card);
+      border: 1px solid var(--color-borde);
+      border-radius: 16px;
+      padding: 30px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      min-width: 600px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+      z-index: 999;
+    }
+    .mega-trigger:hover .mega-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(5px);
+    }
+    .mega-col h4 {
+      font-family: var(--font-titulos);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--color-primario);
+      margin-bottom: 15px;
+    }
+    .mega-col a {
+      display: block;
+      padding: 6px 0;
+      font-size: 14px;
+      color: var(--color-texto);
+      text-decoration: none;
+    }
+    .mega-col a:hover { color: var(--color-primario); }
+
+    .btn-nav {
+      background: var(--color-primario);
+      color: #fff;
+      padding: 10px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .btn-nav:hover {
+      opacity: 0.9;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Toggle modo oscuro e idioma */
+    .nav-actions { display: flex; gap: 10px; align-items: center; }
+    .btn-icon {
+      background: transparent;
+      border: 1px solid var(--color-borde);
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 16px;
+      color: var(--color-texto);
+      transition: all 0.3s;
+    }
+    .btn-icon:hover { background: var(--color-primario); color: #fff; border-color: var(--color-primario); }
+
+    /* Menú hamburguesa móvil */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1001; }
+    .hamburger span { width: 25px; height: 2px; background: var(--color-texto); transition: all 0.3s; }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+    /* ========== HERO CON PARTÍCULAS ========== */
+    .hero {
+      position: relative;
+      padding: 80px 60px;
+      background: linear-gradient(135deg, var(--color-hero) 0%, var(--color-hero-alt) 100%);
+      overflow: hidden;
+    }
+    #particulas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-text .badge {
+      display: inline-block;
+      background: var(--color-badge);
+      color: var(--color-primario);
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .hero-text h1 {
+      font-family: var(--font-titulos);
+      font-size: 54px;
+      color: var(--color-titulo);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero-text p {
+      font-size: 18px;
+      color: var(--color-subtitulo);
+      margin-bottom: 30px;
+      line-height: 1.7;
+    }
+    .hero-buttons { display: flex; gap: 16px; }
+    .btn {
+      display: inline-block;
+      background: var(--color-primario);
+      color: #fff;
+      padding: 16px 40px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    .btn:active::after { width: 300px; height: 300px; }
+    .btn-outline {
+      display: inline-block;
+      background: transparent;
+      color: var(--color-primario);
+      padding: 16px 40px;
+      border-radius: 10px;
+      border: 2px solid var(--color-primario);
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.3s;
+    }
+    .btn-outline:hover { background: var(--color-primario); color: #fff; }
+    .hero-image {
+      width: 100%;
+      height: 450px;
+      background: var(--color-placeholder);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-titulos);
+      font-size: 18px;
+      color: var(--color-titulo);
+    }
+
+    /* ========== CONTADORES ========== */
+    .contadores { padding: 60px 60px; background: var(--color-contadores-fondo); text-align: center; }
+    .contadores-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; max-width: 1100px; margin: 0 auto; }
+    .contador-item .numero {
+      font-family: var(--font-titulos);
+      font-size: 52px;
+      font-weight: 900;
+      color: var(--color-primario);
+    }
+    .contador-item .etiqueta { font-size: 15px; color: var(--color-subtitulo); margin-top: 8px; }
+
+    /* ========== SECCIONES ========== */
+    .seccion { padding: 100px 60px; }
+    .seccion-header { text-align: center; margin-bottom: 60px; }
+    .seccion-header h2 {
+      font-family: var(--font-titulos);
+      font-size: 44px;
+      color: var(--color-titulo);
+      margin-bottom: 15px;
+    }
+    .seccion-header p { font-size: 18px; color: var(--color-subtitulo); max-width: 650px; margin: 0 auto; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; }
+    .card-servicio {
+      padding: 45px 30px;
+      border-radius: 16px;
+      background: var(--color-card);
+      text-align: center;
+      border: 1px solid var(--color-borde);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+    .card-servicio:hover {
+      transform: translateY(-12px) perspective(500px) rotateX(2deg);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+      border-color: var(--color-primario);
+    }
+    .card-servicio .icono { font-size: 52px; margin-bottom: 20px; }
+    .card-servicio h3 {
+      font-family: var(--font-titulos);
+      font-size: 22px;
+      color: var(--color-titulo);
+      margin-bottom: 12px;
+    }
+    .card-servicio p { color: var(--color-subtitulo); margin-bottom: 20px; }
+    .card-link { color: var(--color-primario); text-decoration: none; font-weight: 700; }
+
+    /* ========== TESTIMONIOS ========== */
+    .testimonios { padding: 100px 60px; background: var(--color-testimonios-fondo); }
+    .testimonios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; max-width: 1200px; margin: 0 auto; }
+    .testimonio-card {
+      padding: 40px;
+      border-radius: 16px;
+      background: var(--color-testimonios-item);
+      border: 1px solid var(--color-borde);
+      transition: transform 0.3s;
+    }
+    .testimonio-card:hover { transform: translateY(-8px); }
+    .testimonio-card .estrellas { color: var(--color-estrellas); font-size: 20px; margin-bottom: 15px; }
+    .testimonio-card p { font-style: italic; margin-bottom: 20px; color: var(--color-texto); }
+    .testimonio-autor { font-weight: 700; color: var(--color-primario); }
+    .testimonio-autor span { font-weight: 400; color: var(--color-subtitulo); font-size: 14px; }
+
+    /* ========== TIMELINE ========== */
+    .timeline { padding: 100px 60px; }
+    .timeline-grid { max-width: 900px; margin: 0 auto; }
+    .timeline-item {
+      display: flex;
+      gap: 30px;
+      padding-bottom: 40px;
+      border-left: 3px solid var(--color-borde);
+      padding-left: 35px;
+      position: relative;
+    }
+    .timeline-item:last-child { border-left-color: transparent; padding-bottom: 0; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -9px;
+      top: 8px;
+      width: 15px;
+      height: 15px;
+      background: var(--color-primario);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(26,115,232,0.4); }
+      50% { box-shadow: 0 0 0 15px rgba(26,115,232,0); }
+    }
+    .timeline-ano {
+      font-family: var(--font-titulos);
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--color-primario);
+      min-width: 70px;
+    }
+    .timeline-texto h3 { font-family: var(--font-titulos); font-size: 20px; color: var(--color-titulo); margin-bottom: 8px; }
+
+    /* ========== CTA FINAL ========== */
+    .cta-seccion {
+      padding: 120px 60px;
+      text-align: center;
+      background: linear-gradient(135deg, var(--color-primario) 0%, var(--color-primario-alt) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-seccion::before {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      top: -100px;
+      left: -100px;
+      animation: float 8s ease-in-out infinite;
+    }
+    .cta-seccion::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      bottom: -80px;
+      right: -80px;
+      animation: float 6s ease-in-out infinite reverse;
+    }
+    .cta-seccion h2 { font-family: var(--font-titulos); font-size: 48px; color: #fff; margin-bottom: 20px; position: relative; z-index: 1; }
+    .cta-seccion p { font-size: 18px; color: rgba(255,255,255,0.85); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; position: relative; z-index: 1; }
+    .btn-blanco {
+      background: #fff;
+      color: var(--color-primario);
+      padding: 18px 50px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 18px;
+      transition: all 0.3s;
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+    }
+    .btn-blanco:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
+
+    /* ========== FOOTER ========== */
+    .footer { padding: 60px 60px 30px; background: var(--color-footer-fondo); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 30px; }
+    .footer-col h4 { font-family: var(--font-titulos); font-size: 16px; color: var(--color-titulo); margin-bottom: 15px; }
+    .footer-col p, .footer-col a {
+      color: var(--color-texto-footer);
+      font-size: 14px;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 8px;
+      transition: color 0.3s;
+    }
+    .footer-col a:hover { color: var(--color-primario); }
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid var(--color-borde);
+      padding-top: 20px;
+      color: var(--color-texto-footer);
+      font-size: 13px;
+    }
+    .btn-subir {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--color-primario);
+      color: #fff;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 22px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+    .btn-subir.visible { opacity: 1; visibility: visible; }
+    .btn-subir:hover { transform: translateY(-3px); }
+
+    /* ========== CHAT ========== */
+    .chat-widget { position: fixed; bottom: 30px; right: 30px; z-index: 1000; }
+    .chat-burbuja {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--color-primario);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      animation: pulse-chat 2s infinite;
+      margin-left: auto;
+    }
+    @keyframes pulse-chat {
+      0%, 100% { box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+      50% { box-shadow: 0 8px 40px rgba(26,115,232,0.5); }
+    }
+    .chat-ventana {
+      position: absolute;
+      bottom: 80px;
+      right: 0;
+      width: 350px;
+      background: var(--color-card);
+      border-radius: 16px;
+      border: 1px solid var(--color-borde);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      display: none;
+      overflow: hidden;
+    }
+    .chat-ventana.abierto { display: block; animation: fadeInUp 0.3s ease; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .chat-header {
+      background: var(--color-primario);
+      color: #fff;
+      padding: 18px 20px;
+      font-family: var(--font-titulos);
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .chat-cerrar { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; }
+    .chat-body { padding: 20px; max-height: 300px; overflow-y: auto; }
+    .chat-pregunta {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      background: var(--color-contadores-fondo);
+      border: 1px solid var(--color-borde);
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: var(--font-cuerpo);
+      font-size: 14px;
+      color: var(--color-texto);
+      transition: all 0.3s;
+    }
+    .chat-pregunta:hover { background: var(--color-primario); color: #fff; border-color: var(--color-primario); }
+    .chat-respuesta {
+      background: var(--color-hero);
+      padding: 14px 18px;
+      border-radius: 12px;
+      margin-top: 8px;
+      font-size: 14px;
+      display: none;
+      animation: fadeInUp 0.3s ease;
+    }
+    .chat-respuesta.visible { display: block; }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1024px) {
+      .hero-content { grid-template-columns: 1fr; }
+      .hero-image { height: 300px; }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .contadores-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonios-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .nav-links.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: var(--color-nav);
+        padding: 30px;
+        border-bottom: 1px solid var(--color-borde);
+        gap: 20px;
+      }
+      .mega-menu { display: none !important; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .hero-text h1 { font-size: 36px; }
+      .hero { padding: 60px 30px; }
+      .seccion { padding: 60px 30px; }
+      .cta-seccion { padding: 80px 30px; }
+      .cta-seccion h2 { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" id="navbar">
+    <a href="inicio.html" class="logo">Beldi</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="inicio.html" data-i18n="inicio">Inicio</a></li>
+      <li class="mega-trigger">
+        <a href="servicios.html" data-i18n="servicios">Servicios ▾</a>
+        <div class="mega-menu">
+          <div class="mega-col">
+            <h4 data-i18n="desarrollo">Desarrollo</h4>
+            <a href="servicios.html">Webs corporativas</a>
+            <a href="servicios.html">Ecommerce</a>
+            <a href="servicios.html">Apps web</a>
+          </div>
+          <div class="mega-col">
+            <h4 data-i18n="marketing">Marketing</h4>
+            <a href="servicios.html">SEO</a>
+            <a href="servicios.html">SEM</a>
+            <a href="servicios.html">Redes sociales</a>
+          </div>
+          <div class="mega-col">
+            <h4 data-i18n="diseno">Diseño</h4>
+            <a href="servicios.html">UX Research</a>
+            <a href="servicios.html">UI Design</a>
+            <a href="servicios.html">Branding</a>
+          </div>
+        </div>
+      </li>
+      <li><a href="equipo.html" data-i18n="equipo">Equipo</a></li>
+      <li><a href="blog.html" data-i18n="blog">Blog</a></li>
+      <li><a href="contacto.html" data-i18n="contacto">Contacto</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-icon" id="toggleTema" aria-label="Cambiar modo">🌓</button>
+      <button class="btn-icon" id="toggleIdioma" aria-label="Cambiar idioma">ES</button>
+      <a href="contacto.html" class="btn-nav" data-i18n="contactar">Contactar</a>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <canvas id="particulas"></canvas>
+    <div class="hero-content">
+      <div class="hero-text">
+        <span class="badge">✨ Sabores de la medina en pleno Madrid</span>
+        <h1>El sabor de Marruecos horneado cada mañana en Lavapiés</h1>
+        <p>Traemos la tradición pastelera marroquí a tu mesa. Cornes de gazelle, chebakia, briouats, pastela dulce y mucho más. Todo hecho a mano, con ingredientes de Marruecos y la misma paciencia que aprendimos de nuestras abuelas en Fez.</p>
+        <div class="hero-buttons">
+          <a href="servicios.html" class="btn">Ver especialidades</a>
+          <a href="contacto.html" class="btn-outline">Hacer encargo</a>
+        </div>
+      </div>
+      <img src="assets/images/hero_beldi.jpg" alt="Beldi hero" class="hero-image" style="object-fit:cover;width:100%;height:100%;border-radius:20px;">
+    </div>
+  </section>
+
+  <section class="contadores reveal">
+    <div class="contadores-grid">
+      <div class="contador-item"><span class="numero" data-contador="12">0</span><span class="etiqueta">Años horneando</span></div>
+      <div class="contador-item"><span class="numero" data-contador="35">0</span><span class="etiqueta">Variedades de dulces</span></div>
+      <div class="contador-item"><span class="numero" data-contador="4">0</span><span class="etiqueta">Maestras pasteleras</span></div>
+      <div class="contador-item"><span class="numero" data-contador="800">0</span><span class="etiqueta">Té con hierbabuena al mes</span></div>
+    </div>
+  </section>
+
+  <section class="seccion reveal">
+    <div class="seccion-header">
+      <h2>Nuestras especialidades</h2>
+      <p>Tres pilares de la repostería marroquí artesanal.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card-servicio">
+        <div class="icono">🌙</div>
+        <h3>Pastelitos tradicionales</h3>
+        <p>Cornes de gazelle, ghriba, briouats de almendra, kaab el ghazal. Los clásicos que endulzan cualquier celebración marroquí.</p>
+        <a href="servicios.html" class="card-link">Ver pastelitos →</a>
+      </div>
+      <div class="card-servicio">
+        <div class="icono">🍯</div>
+        <h3>Dulces de miel</h3>
+        <p>Chebakia, mhancha, sfouf. Elaborados con miel pura de la región del Rif. El secreto mejor guardado de nuestra repostería.</p>
+        <a href="servicios.html" class="card-link">Ver dulces de miel →</a>
+      </div>
+      <div class="card-servicio">
+        <div class="icono">🎉</div>
+        <h3>Mesas dulces para celebraciones</h3>
+        <p>Bodas, bautizos, Ramadán, Eid. Preparamos mesas dulces completas con la mejor selección de pastelería marroquí para tu ocasión especial.</p>
+        <a href="servicios.html" class="card-link">Ver celebraciones →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonios reveal">
+    <div class="seccion-header">
+      <h2>Lo que dicen quienes nos han probado</h2>
+      <p>La mejor receta es la que se comparte.</p>
+    </div>
+    <div class="testimonios-grid">
+      <div class="testimonio-card">
+        <div class="estrellas">★★★★★</div>
+        <p>"Soy marroquí y los cornes de gazelle de Beldi me transportan directamente a la pastelería de mi barrio en Marrakech. Son idénticos. Increíble."</p>
+        <p class="testimonio-autor">Fatima El Amrani<br><span>Cliente desde 2018</span></p>
+      </div>
+      <div class="testimonio-card">
+        <div class="estrellas">★★★★★</div>
+        <p>"Encargué la mesa dulce para mi boda y fue un éxito total. Mis invitados españoles fliparon con los sabores. La chebakia voló en minutos."</p>
+        <p class="testimonio-autor">Laura Martínez<br><span>Novia feliz, 2024</span></p>
+      </div>
+      <div class="testimonio-card">
+        <div class="estrellas">★★★★★</div>
+        <p>"No conocía la pastelería marroquí y ahora soy adicta a los briouats de almendra. El té con hierbabuena que te ofrecen mientras esperas es un detalle maravilloso."</p>
+        <p class="testimonio-autor">Claudia Sánchez<br><span>Vecina de Lavapiés</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion timeline reveal">
+    <div class="seccion-header">
+      <h2>Nuestra historia</h2>
+      <p>De una cocina en Fez al corazón de Madrid.</p>
+    </div>
+    <div class="timeline-grid">
+      <div class="timeline-item"><div class="timeline-ano">2012</div><div class="timeline-texto"><h3>El sueño de Amina</h3><p>Amina llega de Fez con las recetas de su abuela. Empieza horneando en su cocina de Lavapiés para amigos y vecinos.</p></div></div>
+      <div class="timeline-item"><div class="timeline-ano">2015</div><div class="timeline-texto"><h3>Primera tienda</h3><p>Abre el pequeño obrador de la Calle Lavapiés. Las colas del Ramadán confirman que había hambre de auténtica pastelería marroquí.</p></div></div>
+      <div class="timeline-item"><div class="timeline-ano">2019</div><div class="timeline-texto"><h3>Maestras pasteleras</h3><p>Se unen Khadija y Yasmin, dos maestras pasteleras de Tánger. La variedad de dulces se multiplica y la calidad se mantiene artesanal.</p></div></div>
+      <div class="timeline-item"><div class="timeline-ano">2026</div><div class="timeline-texto"><h3>Hoy</h3><p>Un referente de la pastelería marroquí en Madrid. 35 variedades de dulces, cientos de mesas dulces para celebraciones y el mismo té con hierbabuena del primer día.</p></div></div>
+    </div>
+  </section>
+
+  <section class="cta-seccion reveal">
+    <h2>¿Te apetece un viaje a Marruecos sin salir de Madrid?</h2>
+    <p>Ven a probar nuestros dulces. Te invitamos a un té con hierbabuena mientras eliges.</p>
+    <a href="contacto.html" class="btn-blanco">Visitar la tienda</a>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col"><h4>Beldi</h4><p>Beldi significa 'tradicional' en árabe. Y eso es lo que hacemos: pastelería marroquí auténtica, con las recetas de nuestras abuelas y los ingredientes de siempre. Desde 2012 endulzando Madrid con sabor a Marruecos.</p></div>
+      <div class="footer-col"><h4>Pastelería</h4><a href="inicio.html">Inicio</a><a href="servicios.html">Servicios</a><a href="equipo.html">Equipo</a></div>
+      <div class="footer-col"><h4>Descubre</h4><a href="blog.html">Blog</a><a href="contacto.html">Contacto</a><a href="#">Preguntas frecuentes</a></div>
+      <div class="footer-col"><h4>Contacto</h4><p>Calle Lavapiés 22, 28012 Madrid</p><p>hola@beldipasteleria.es</p><p>+34 912 345 678</p></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 Beldi. بسم الله - Hecho con las manos, el corazón y miel de verdad.</p></div>
+  </footer>
+
+  <a href="#" class="btn-subir" id="btnSubir">↑</a>
+
+  <div class="chat-widget">
+    <div class="chat-ventana" id="chatVentana">
+      <div class="chat-header"><span>¿Hablamos de dulces? سلام</span><button class="chat-cerrar" id="chatCerrar">✕</button></div>
+      <div class="chat-body" id="chatBody"></div>
+    </div>
+    <div class="chat-burbuja" id="chatBurbuja">💬</div>
+  </div>
+
+  <script>
+    // ========== REVEAL ANIMATION ==========
+    const revealElements = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+    revealElements.forEach(el => observer.observe(el));
+
+    // ========== CONTADORES ANIMADOS ==========
+    const contadores = document.querySelectorAll('[data-contador]');
+    const observerContadores = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.getAttribute('data-contador'));
+          const duration = 2000;
+          const start = performance.now();
+          function update(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.floor(eased * target) + (target >= 100 ? '+' : '');
+            if (progress < 1) requestAnimationFrame(update);
+          }
+          requestAnimationFrame(update);
+          observerContadores.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    contadores.forEach(el => observerContadores.observe(el));
+
+    // ========== NAV SCROLL ==========
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+
+      const btnSubir = document.getElementById('btnSubir');
+      if (window.scrollY > 600) btnSubir.classList.add('visible');
+      else btnSubir.classList.remove('visible');
+    });
+
+    // ========== HAMBURGUER ==========
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('mobile-open');
+    });
+
+    // ========== MODO OSCURO ==========
+    const toggleTema = document.getElementById('toggleTema');
+    toggleTema.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-tema');
+      document.documentElement.setAttribute('data-tema', current === 'dark' ? 'light' : 'dark');
+      localStorage.setItem('tema', current === 'dark' ? 'light' : 'dark');
+    });
+    const savedTema = localStorage.getItem('tema');
+    if (savedTema) document.documentElement.setAttribute('data-tema', savedTema);
+
+    // ========== CHAT ==========
+    const chatBurbuja = document.getElementById('chatBurbuja');
+    const chatVentana = document.getElementById('chatVentana');
+    const chatCerrar = document.getElementById('chatCerrar');
+    const chatBody = document.getElementById('chatBody');
+    const chatData = [{ "pregunta": "¿Hacéis pastelitos para bodas?", "respuesta": "Sí, claro. Nuestras mesas dulces para bodas marroquíes son nuestra especialidad. Pide presupuesto y te preparamos una degustación." },{ "pregunta": "¿Qué es el chebakia?", "respuesta": "Una masa frita en forma de flor, bañada en miel y sésamo. Es uno de los dulces más tradicionales de Marruecos, sobre todo en Ramadán. Ven a probarla." },{ "pregunta": "¿Enviáis a toda España?", "respuesta": "Sí. Enviamos nuestros dulces en cajas especiales que mantienen la frescura. Llegan perfectos en 24 horas." },{ "pregunta": "¿Tenéis opciones sin frutos secos?", "respuesta": "Sí. Aunque la almendra es protagonista en nuestra repostería, tenemos variedad de dulces con sésamo, coco o solo miel. Consúltanos." }];
+
+    function initChat() {
+      chatData.forEach(item => {
+        const btn = document.createElement('button');
+        btn.className = 'chat-pregunta';
+        btn.textContent = item.pregunta;
+        const respuesta = document.createElement('div');
+        respuesta.className = 'chat-respuesta';
+        respuesta.textContent = item.respuesta;
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.chat-respuesta').forEach(r => r.classList.remove('visible'));
+          respuesta.classList.add('visible');
+          respuesta.style.animation = 'none';
+          respuesta.offsetHeight;
+          respuesta.style.animation = 'fadeInUp 0.3s ease';
+        });
+        chatBody.appendChild(btn);
+        chatBody.appendChild(respuesta);
+      });
+    }
+    initChat();
+
+    chatBurbuja.addEventListener('click', () => chatVentana.classList.toggle('abierto'));
+    chatCerrar.addEventListener('click', () => chatVentana.classList.remove('abierto'));
+
+    // ========== PARTICULAS ==========
+    const canvas = document.getElementById('particulas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let particulas = [];
+      const maxParticulas = 20;
+      const colorParticula = '#c4883c';
+
+      function resize() {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      class Particula {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.vx = (Math.random() - 0.5) * 0.5;
+          this.vy = (Math.random() - 0.5) * 0.5;
+          this.size = Math.random() * 3 + 1;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+          if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = colorParticula;
+          ctx.globalAlpha = 0.3;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      for (let i = 0; i < maxParticulas; i++) {
+        particulas.push(new Particula());
+      }
+
+      function animar() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particulas.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animar);
+      }
+      animar();
+    }
+  </script>
+</body>
+</html>
